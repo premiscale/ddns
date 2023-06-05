@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.cron.schedule | quote }}
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: {{ .Chart.Name }}
+              image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+              imagePullPolicy: Always
+              {{- with .Values.env }}
+              env:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- if .Values.volume.enabled }}
+              volumeMounts:
+                - name: {{ .Chart.Name }}
+                  mountPath: /app/terraform/.terraform/
+              {{- end }}
+          {{- with .Values.image.pullSecrets }}
+          imagePullSecrets:
+            {{ toYaml $.Values.image.pullSecrets }}
+          {{- end }}
+          restartPolicy: OnFailure
+          {{- if .Values.volume.enabled }}
+          # Re-use our terraform init data to save run time and cache Terraform state locally.
+          volumes:
+            - name: {{ .Chart.Name }}
+              persistentVolumeClaim:
+                claimName: {{ .Chart.Name }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

@@ -1,0 +1,46 @@
+global:
+  storageclass: longhorn
+
+cron:
+  # Run hourly, 20 minutes after the top of the hour.
+  schedule: '20 * * * *'
+
+image:
+  name: docker.ops.premiscale.com/ddns
+  tag: 0.0.342
+  pullSecrets:
+    - name: nexus-docker-registry
+
+volume:
+  enabled: true
+  size: 2Gi
+
+env:
+  - name: AWS_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: terraform
+        key: AWS_ACCESS_KEY
+  - name: AWS_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: terraform
+        key: AWS_SECRET_KEY
+  - name: AWS_REGION
+    valueFrom:
+      secretKeyRef:
+        name: terraform
+        key: AWS_REGION
+  - name: CRONITOR_TELEMETRY_KEY
+    valueFrom:
+      secretKeyRef:
+        name: cronitor
+        key: CRONITOR_TELEMETRY_KEY
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 0.25
+  limits:
+    memory: 1Gi
+    cpu: 0.25

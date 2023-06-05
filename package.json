@@ -1,7 +1,10 @@
 {
-  "name": "base",
+  "name": "ddns",
   "author": "emma@premiscale.com",
   "license": "GPLv3",
   "private": true,
-  "scripts": {}
+  "scripts": {
+    "helm:install:ddns": "./scripts/helm/ddns-install.sh",
+    "helm:uninstall:ddns": "helm uninstall ddns -n crons"
+  }
 }
