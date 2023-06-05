@@ -9,12 +9,10 @@ orbs:
 
 
 workflows:
-  base:
+  ddns:
     jobs:
       - dynamic/continue:
           context: circleci
-          modules: |
-            /scripts
 
       - general/github-release:
           context: github

@@ -1,10 +1,7 @@
-_extends: .github
+_extends: .github-private
 
 repository:
-  name: base
-  description: Base repository with default settings and configs
-  homepage: https://github.com/premiscale/base
-
-  # A comma-separated list of topics to set on the repository
-  topics: settings
-  private: true
+  name: ddns
+  description: Dynamic DNS cronjob to update an A record in AWS with my residential IP
+  homepage: https://github.com/premiscale/ddns
+  topics: dns, aws, terraform, cron
