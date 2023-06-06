@@ -7,7 +7,7 @@ cron:
 
 image:
   name: docker.ops.premiscale.com/ddns
-  tag: 0.0.342
+  tag: v1.0.0
   pullSecrets:
     - name: nexus-docker-registry
 
