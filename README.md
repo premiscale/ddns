@@ -8,4 +8,6 @@
 
 A dynamic DNS CronJob on Kubernetes that runs Terraform against AWS Route53 to ensure the A-record is kept up-to-date with my residential IP. This service is only intended to run on home development clusters.
 
+The service persists the state file and terraform init artifacts in a PVC that's re-mounted on every run to the job.
+
 See also the [status page](https://premiscale-development.cronitorstatus.com/).

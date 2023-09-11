@@ -29,16 +29,24 @@ cron:
       secretKeyRef:
         name: terraform
         key: AWS_REGION
+  # Cronitor.io telemetry API key.
   - name: CRONITOR_TELEMETRY_KEY
     valueFrom:
       secretKeyRef:
         name: cronitor
         key: CRONITOR_TELEMETRY_KEY
+  # A-record to keep up to date (that everything's CNAME'd-to).
   - name: DEVELOPMENT_A_RECORD
     valueFrom:
       secretKeyRef:
         name: terraform
         key: DEVELOPMENT_A_RECORD
+  # Target hosted zone.
+  - name: DOMAIN
+    valueFrom:
+      secretKeyRef:
+        name: terraform
+        key: DOMAIN
 
   resources:
     requests:
