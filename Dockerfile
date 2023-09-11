@@ -27,15 +27,15 @@ RUN apt-get update \
 
 # Install Terraform
 ARG TERRAFORM_VERSION=1.3.4
-RUN curl -sOL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    install terraform /usr/bin/terraform && \
-    rm terraform*.zip
+RUN curl -sOL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+    && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+    && install terraform /usr/bin/terraform \
+    && rm terraform*.zip
 
 # Install cronitor
-RUN curl -sOL https://cronitor.io/dl/linux_amd64.tar.gz && \
-    tar xvf linux_amd64.tar.gz -C /usr/bin/ && \
-    rm linux_amd64.tar.gz
+RUN curl -sOL https://cronitor.io/dl/linux_amd64.tar.gz \
+    && tar xvf linux_amd64.tar.gz -C /usr/bin/ \
+    && rm linux_amd64.tar.gz
 
 WORKDIR /app
 COPY bin/run.sh .
