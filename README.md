@@ -2,7 +2,7 @@
 
 ![ddns](https://cronitor.io/badges/x0kIMl/production/YBAdKB6dH0ym55CwxzsKFn5T0jM.svg)
 
-<p align="center" width="100%">
+<p align="left" width="100%">
   <img width="40%" src="img/ui.png" alt="example">
 </p>
 
