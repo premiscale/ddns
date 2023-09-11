@@ -3,6 +3,14 @@ kind: CronJob
 metadata:
   name: {{ .Chart.Name }}
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.cron.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cron.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   schedule: {{ .Values.cron.schedule | quote }}
   successfulJobsHistoryLimit: 1
@@ -11,9 +19,31 @@ spec:
     spec:
       template:
         spec:
+          {{- with .Values.cron.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if gt (len .Values.cron.image.pullSecrets) 0 }}
+            {{- range .Values.cron.image.pullSecrets }}
+          imagePullSecrets:
+            - name: {{ . }}
+            {{- end }}
+          {{- end }}
+          restartPolicy: Never
+          {{- if .Values.volume.enabled }}
+          # Re-use our terraform init data to save run time and cache Terraform state locally.
+          volumes:
+            - name: {{ .Chart.Name }}
+              persistentVolumeClaim:
+                claimName: {{ .Chart.Name }}
+          {{- end }}
           containers:
             - name: {{ .Chart.Name }}
-              image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+              {{- if .Values.global.image.registry }}
+              image: "{{ .Values.global.image.registry }}/{{ .Values.cron.image.name }}:{{ .Values.cron.image.tag }}"
+              {{- else }}
+              image: "{{ .Values.cron.image.name }}:{{ .Values.cron.image.tag }}"
+              {{- end }}
               imagePullPolicy: Always
               {{- with .Values.env }}
               env:
@@ -24,19 +54,7 @@ spec:
                 - name: {{ .Chart.Name }}
                   mountPath: /app/terraform/.terraform/
               {{- end }}
-          {{- with .Values.image.pullSecrets }}
-          imagePullSecrets:
-            {{ toYaml $.Values.image.pullSecrets }}
-          {{- end }}
-          restartPolicy: OnFailure
-          {{- if .Values.volume.enabled }}
-          # Re-use our terraform init data to save run time and cache Terraform state locally.
-          volumes:
-            - name: {{ .Chart.Name }}
-              persistentVolumeClaim:
-                claimName: {{ .Chart.Name }}
-          {{- end }}
-          {{- with .Values.resources }}
-          resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+              {{- with .Values.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}

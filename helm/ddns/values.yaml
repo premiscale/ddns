@@ -1,21 +1,19 @@
 global:
   storageclass: longhorn
+  image:
+    registry: ''
+    secretType: dockerconfigjson
 
 cron:
   # Run hourly, 20 minutes after the top of the hour.
   schedule: '20 * * * *'
 
-image:
-  name: docker.ops.premiscale.com/ddns
-  tag: v1.0.0
-  pullSecrets:
-    - name: nexus-docker-registry
+  image:
+    name: ddns
+    tag: 1.0.0
+    pullSecrets: []
 
-volume:
-  enabled: true
-  size: 2Gi
-
-env:
+  env:
   - name: AWS_ACCESS_KEY
     valueFrom:
       secretKeyRef:
@@ -37,10 +35,20 @@ env:
         name: cronitor
         key: CRONITOR_TELEMETRY_KEY
 
-resources:
-  requests:
-    memory: 1Gi
-    cpu: 0.25
-  limits:
-    memory: 1Gi
-    cpu: 0.25
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 0.25
+    limits:
+      memory: 1Gi
+      cpu: 0.25
+
+  annotations: {}
+  labels: {}
+
+  securityContext:
+    runAsUser: 1001
+
+volume:
+  enabled: true
+  size: 2Gi
