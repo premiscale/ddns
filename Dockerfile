@@ -23,7 +23,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd ddns \
     && useradd -rm -d /opt/ddns -s /bin/bash -g ddns -G sudo -u 1001 ddns \
-    && mkdir -p /app/terraform
+    && mkdir -p /app/terraform \
+    && mkdir /app/terraform/.terraform
 
 # Install Terraform
 ARG TERRAFORM_VERSION=1.3.4
