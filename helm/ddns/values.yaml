@@ -6,7 +6,7 @@ global:
 
 cron:
   # Run hourly, 20 minutes after the top of the hour.
-  schedule: '20 * * * *'
+  schedule: '*/2 * * * *'
 
   image:
     name: ddns

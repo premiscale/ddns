@@ -21,7 +21,7 @@ ENV AWS_ACCESS_KEY="" \
 RUN apt-get update \
     && apt-get install -y curl unzip \
     && rm -rf /var/lib/apt/lists/* \
-    && groupadd ddns \
+    && groupadd ddns -g 1001 \
     && useradd -rm -d /opt/ddns -s /bin/bash -g ddns -G sudo -u 1001 ddns \
     && mkdir -p /app/terraform \
     && mkdir /app/terraform/.terraform
