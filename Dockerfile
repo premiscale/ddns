@@ -14,7 +14,8 @@ USER root
 ENV AWS_ACCESS_KEY="" \
     AWS_REGION="" \
     AWS_SECRET_KEY="" \
-    CRONITOR_TELEMETRY_KEY=""
+    CRONITOR_TELEMETRY_KEY="" \
+    DEVELOPMENT_A_RECORD=""
 
 # Install the Doppler CLI via apt for secrets retrieval.
 RUN apt-get update \

@@ -34,6 +34,11 @@ cron:
       secretKeyRef:
         name: cronitor
         key: CRONITOR_TELEMETRY_KEY
+  - name: DEVELOPMENT_A_RECORD
+    valueFrom:
+      secretKeyRef:
+        name: terraform
+        key: DEVELOPMENT_A_RECORD
 
   resources:
     requests:
