@@ -47,21 +47,20 @@ workflows:
 
       - general/docker-nexus:
           name: docker [ddns] [tag]
-          context: nexus
           image-name: ddns
-          args: --build-arg TERRAFORM_VERSION=1.3.4
-          commit-tag: false
-          path: ddns/
+          context: nexus
+          path: .
+          nexus-domain: $DOCKER_DOMAIN
           tag: $CIRCLE_TAG
+          args: |
+            --build-arg TERRAFORM_VERSION=1.3.4
           requires:
             - request-approval
           filters:
             branches:
-              ignore:
-                - /.*/
+              ignore: /.*/
             tags:
-              only:
-                - /^v?[0-9]+\.[0-9]+\.[0-9]+$/
+              only: /^v?[0-9]+\.[0-9]+\.[0-9]+$/
 
       - general/helm-release-nexus:
           name: helm build and push [helm/ddns] [tag]
