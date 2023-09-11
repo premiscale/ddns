@@ -109,5 +109,5 @@ workflows:
             - nexus
           filters:
             branches:
-              ignore:
+              only:
                 - master
