@@ -61,7 +61,7 @@ cron:
 
   securityContext:
     runAsUser: 1001
-    fsGroup: ddns
+    fsGroup: 1001
     fsGroupChangePolicy: OnRootMismatch
 
 volume:
