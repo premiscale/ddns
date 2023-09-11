@@ -45,10 +45,14 @@ workflows:
             tags:
               only: /^v?[0-9]+\.[0-9]+\.[0-9]+$/
 
-      - general/helm-release-nexus:
-          name: helm build and push [helm/ddns] [tag]
+      - general/docker-nexus:
+          name: docker [ddns] [tag]
           context: nexus
-          path: helm/ddns
+          image-name: ddns
+          args: --build-arg TERRAFORM_VERSION=1.3.4
+          commit-tag: false
+          path: ddns/
+          tag: $CIRCLE_TAG
           requires:
             - request-approval
           filters:
@@ -59,15 +63,14 @@ workflows:
               only:
                 - /^v?[0-9]+\.[0-9]+\.[0-9]+$/
 
-      - general/docker-nexus:
-          name: docker [ddns] [tag]
+      - general/helm-release-nexus:
+          name: helm build and push [helm/ddns] [tag]
           context: nexus
-          image-name: ddns
-          args: --build-arg TERRAFORM_VERSION=1.3.4
-          commit-tag: false
-          path: ddns/
-          tag: $CIRCLE_TAG
+          version: $CIRCLE_TAG
+          image-tag: $CIRCLE_TAG
+          image-tag-path: .cron.image.tag
           requires:
+            - docker [ddns] [tag]
             - request-approval
           filters:
             branches:

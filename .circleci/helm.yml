@@ -35,7 +35,7 @@ workflows:
           repo: $HELM_DEVELOP_REPOSITORY_URL
           version: 0.0.<< pipeline.number >>
           image-tag: 0.0.<< pipeline.number >>
-          image-tag-path: .ddns.image.tag
+          image-tag-path: .cron.image.tag
           requires:
             - helm lint [helm/ddns]
           filters:
@@ -85,7 +85,7 @@ workflows:
           repo: $HELM_MASTER_REPOSITORY_URL
           version: 0.0.<< pipeline.number >>
           image-tag: 0.0.<< pipeline.number >>
-          image-tag-path: .ddns.image.tag
+          image-tag-path: .cron.image.tag
           requires:
             - helm lint [helm/ddns]
           filters:
