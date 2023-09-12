@@ -54,7 +54,7 @@ spec:
                 - name: {{ .Chart.Name }}
                   mountPath: /app/terraform/.terraform/
               {{- end }}
-              {{- with .Values.resources }}
+              {{- with .Values.cron.resources }}
               resources:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
