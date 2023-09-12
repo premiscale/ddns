@@ -45,7 +45,7 @@ spec:
               image: "{{ .Values.cron.image.name }}:{{ .Values.cron.image.tag }}"
               {{- end }}
               imagePullPolicy: Always
-              {{- with .Values.env }}
+              {{- with .Values.cron.env }}
               env:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
