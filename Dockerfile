@@ -44,4 +44,6 @@ COPY terraform/* terraform/
 RUN chown -R ddns:ddns /app \
     && chmod +x run.sh
 
+USER ddns
+
 CMD [ "./run.sh" ]
